@@ -1,0 +1,173 @@
+{% block content %}
+{% load humanize %}
+{% load mathfilters %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio</title>
+
+</head>
+<body>
+    <style>
+        body {
+            background-color: white;
+        }
+        td {
+          height: 50px;
+          vertical-align: bottom;
+
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"></div>
+                    <div class="panel-body">
+                        <strong>Welcome to Eagle Finance Services</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h2 style="padding-left: 15Px">Overall Portfolio Performance</h2>
+    </div>
+
+
+        <table class="table table-striped table-bordered table-hover">
+         <div style="overflow-x:auto;">
+            <thead>
+                <tr class="bg-info">
+
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Portfolio Initial Investments</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Portfolio Current Investments</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Grand Total Results</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ Total_initial_investmensts|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ Total_current_investments|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ Grand_total|floatformat|intcomma }}</td>
+                </tr>
+            </tbody>
+         </div>
+        </table>
+    <br>
+        <table class="table table-striped table-bordered table-hover">
+         <div style="overflow-x:auto;">
+            <thead>
+                <tr class="bg-info">
+
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Total of Initial stocks</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Total of Current stocks</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Results</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ sum_of_initial_stock_value|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ sum_current_stocks_value|floatformat|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ result|floatformat|intcomma }}</td>
+                </tr>
+            </tbody>
+         </div>
+        </table>
+    <br>
+    <h2>Stock Information</h2>
+        <table class="table table-striped table-bordered table-hover">
+         <div style="overflow-x:auto;">
+            <thead>
+                <tr class="bg-info">
+
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Customer Number</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Symbol</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Name</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Shares</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Initial Stock Price</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Initial Stock Value</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Current Stock Price</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Current Stock Value</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Result</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                 {% for stock in stocks %}
+                <tr>
+
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.user }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.symbol }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.name }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.shares|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.purchase_price|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.initial_stock_value|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.current_stock_price|intcomma  }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ stock.current_stock_value|floatformat|intcomma  }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ result|floatformat|intcomma }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+         </div>
+        </table>
+<br>
+<h3>Investment Information </h3>
+    <table class="table table-striped table-bordered table-hover">
+         <div style="overflow-x:auto;">
+            <thead>
+                <tr class="bg-info">
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>#</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Customer</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Category</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Description</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Acquired Value</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Acquired Date</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Recent Value</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Recent Date</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Result</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                  {% for investment in investments %}
+                <tr>
+
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ forloop.counter }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.user }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.category }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.description }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.acquired_value|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.acquired_date }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.recent_value|intcomma  }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.recent_date|intcomma  }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ investment.results_by_investment|intcomma }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+         </div>
+        </table>
+<br>
+        <table class="table table-striped table-bordered table-hover">
+         <div style="overflow-x:auto;">
+            <thead>
+                <tr class="bg-info">
+
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Total Initial Investments</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Total Current Investments</strong></td>
+                    <td style="text-align:center;background-color:#b2e0ff;border:1px solid #060606;"><strong>Result</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ sum_of_initial_investment_value|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ sum_current_investment_value|intcomma }}</td>
+                    <td style="text-align:center;background-color:#ffffff;border:1px solid #060606;">{{ result1|intcomma }}</td>
+                </tr>
+            </tbody>
+         </div>
+        </table>
+</body>
+</html>
+{% endblock %}

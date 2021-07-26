@@ -1,0 +1,80 @@
+{% extends 'portfolio/base.html' %}
+{% block content %}
+<div class="page-header">
+            <h4>Graphical representation for the {{customer.name}}'s portfolio</h4>
+       </div>
+   <div id="container" style="width: 60%;">
+    <canvas id="pie-chart"></canvas>
+       <br>
+       <canvas id="population-chart" data-url="{% url 'portfolio:chartdata' customer.pk %}"></canvas>
+   </div>
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+    var defaultData = []
+    var labels1 = [];
+    var config = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: {{ data|safe }},
+          backgroundColor: [
+            '#008000', '#008080', '#0000FF', '##000000', '#D3D3D3','#FF7F50','#D2691E'
+          ],
+          label: 'Investments'
+        }],
+        labels: {{ labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+
+window.onload = function() {
+      var ctx = document.getElementById('pie-chart').getContext('2d');
+      window.myPie = new Chart(ctx,config);
+    };
+
+    $(function () {
+
+      var $populationChart = $("#population-chart");
+      $.ajax({
+        url: $populationChart.data("url"),
+        success: function (data) {
+
+          var ctx = $populationChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels1,
+              datasets: [{
+                label: 'Portfolio',
+                backgroundColor: '#FF7F50',
+                data: data.data1
+              }]
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Portfolio Bar Chart'
+              }
+            }
+          });
+
+        }
+      });
+
+    });
+
+
+
+
+  </script>
+{% endblock content %}

@@ -1,0 +1,82 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+  <div class="card mb-3"style="max-width: 50rem;color:#4B7381;">
+  <div class="card-body">
+    <h5 class="card-title"><b>Investment Information</b></h5>
+    <p class="card-text">Eagle Financial Services, your Midwest Financial Services Partner.</p>
+  </div>
+</div>
+{% if request.user.is_superuser or request.user.is_FinancialAdvisor %}
+<div  class="table-responsive text-nowrap">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Category</th>
+        <th width="50%">Description</th>
+        <th scope="col">Acquired Value</th>
+        <th scope="col">Acquired Date</th>
+        <th scope="col">Recent Value</th>
+        <th scope="col">Recent Date</th>
+        <th colspan="3" style=" text-align: center;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for investment in investment %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+           <td>{{ investment.user }}</td>
+           <td>{{ investment.category }}</td>
+           <td>{{ investment.description }}</td>
+           <td>{{ investment.acquired_value }}</td>
+           <td>{{ investment.acquired_date }}</td>
+           <td>{{ investment.recent_value }}</td>
+           <td>{{ investment.recent_date }}</td>
+           <td><a href="{% url 'portfolio:investment_edit' pk=investment.pk %}" class="btn btn-warning">Edit</a>
+           <td><a href="{% url 'portfolio:investment_delete' pk=investment.pk %}" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger">Delete</a>
+           </td>
+        </tr>
+     {% endfor %}
+    </tbody>
+  </table>
+    <div class="row">
+        <a href="{% url 'portfolio:investment_new' %}"><span class="btn btn-primary">Add Investment</span></a>
+    </div>
+</div>
+{% else %}
+<div  class="table-responsive text-nowrap">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Category</th>
+        <th scope="col">Description</th>
+        <th scope="col">Acquired Value</th>
+        <th scope="col">Acquired Date</th>
+        <th scope="col">Recent Value</th>
+        <th scope="col">Recent Date</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for investment in investment %}
+         {% if investment.user.user == request.user %}
+            <tr>
+              <th scope="row">{{forloop.counter}}</th>
+               <td>{{ investment.user }}</td>
+               <td>{{ investment.category }}</td>
+               <td>{{ investment.description }}</td>
+               <td>{{ investment.acquired_value }}</td>
+               <td>{{ investment.acquired_date }}</td>
+               <td>{{ investment.recent_value }}</td>
+               <td>{{ investment.recent_date }}</td>
+            </tr>
+         {% endif  %}
+     {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif  %}
+{% endblock content %}

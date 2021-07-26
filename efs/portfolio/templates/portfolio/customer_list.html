@@ -1,0 +1,108 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+
+    <body>
+    <style>
+        body {
+            background-color: beige;
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Welcome!</div>
+                    <div class="panel-body">
+                        Eagle Financial Services, your Midwest Financial Services Partner.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if request.user.is_superuser or request.user.is_FinancialAdvisor %}
+    <div class="row">
+        <h2 style="padding-left: 15Px">Customer Information</h2>
+    </div>
+    <div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr class="bg-info">
+                <th>Customer Number</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>Primary Email</th>
+                <th>Cell Phone</th>
+                <th colspan="3">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.cust_number }}</td>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.address }}</td>
+                    <td>{{ customer.city }}</td>
+                    <td>{{ customer.state }}</td>
+                    <td>{{ customer.zipcode }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.cell_phone }}</td>
+                    <td><a href= "{% url 'portfolio:customer_edit' pk=customer.pk %}"  class="btn btn-warning">Edit</a>
+                    <td><a href="{% url 'portfolio:customer_delete' pk=customer.pk %}"
+                           onclick="return confirm('Are you sure you want to delete?')"
+                           class="btn btn-danger">Delete</a>
+                    </td>
+                    <td><a href="{% url 'portfolio:portfolio' pk=customer.pk %}"
+                           class="btn btn-primary">Portfolio</a>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    {% else %}
+    <div  class="table-responsive text-nowrap">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Customer Number</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col">Zip</th>
+            <th scope="col">Primary Email</th>
+            <th scope="col">Cell Phone</th>
+            <th colspan="3" style=" text-align: center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+         {% for customer in customer %}
+            {% if customer.user == request.user %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                   <td>{{ customer.cust_number }}</td>
+                   <td>{{ customer.name }}</td>
+                   <td>{{ customer.address }}</td>
+                   <td>{{ customer.city }}</td>
+                   <td>{{ customer.state }}</td>
+                   <td>{{ customer.zipcode }}</td>
+                   <td>{{ customer.email }}</td>
+                   <td>{{ customer.cell_phone }}</td>
+                   <td><a href="{% url 'portfolio:portfolio' pk=customer.pk %}" class="btn btn-primary">Portfolio</a>
+                </tr>
+            {% endif  %}
+         {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    </body>
+    </html>
+{% endif  %}
+{% endblock %}
+   

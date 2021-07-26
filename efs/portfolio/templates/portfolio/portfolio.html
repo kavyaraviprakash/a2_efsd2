@@ -1,0 +1,152 @@
+{% extends 'portfolio/base.html' %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block content %}
+  <div class="card mb-3"style="max-width: 50rem;color:#4B7381;">
+  <div class="card-body">
+    <h5 class="card-title text-center"><b>Stocks Information</b></h5>
+    <p class="card-text text-center">Eagle Financial Services, your Midwest Financial Services Partner.</p>
+  </div>
+</div>
+      <a href="{% url 'portfolio:generate_pdf_view' pk=customer.pk %}" class="btn btn-primary" role="button" style="float: right;">Export to PDF</a>
+      <a href="{% url 'portfolio:pie-chart' customer.pk %}" class="btn btn-info" role="button" style="float: left;">Graphical View</a>
+<br>
+    <br>
+<div class="page-header text-center">
+    <h2>Overall Portfolio Performance</h2>
+</div>
+<br>
+<div  class="table-responsive text-nowrap">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Portfolio Initial Investments</th>
+        <th scope="col">Portfolio Current Investments</th>
+        <th scope="col">Grand Total Results</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+           <td>{{ Total_initial_investmensts|intcomma }}</td>
+           <td>{{ Total_current_investments|intcomma }}</td>
+           <td>{{ Grand_total|floatformat|intcomma }}</td>
+           </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<div  class="table-responsive text-nowrap">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Total of Initial stocks</th>
+        <th scope="col">Total of Current stocks</th>
+        <th scope="col">Results</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+           <td>{{ sum_of_initial_stock_value|intcomma }}</td>
+           <td>{{ sum_current_stocks_value|floatformat|intcomma }}</td>
+           <td>{{ result|floatformat|intcomma }}</td>
+           </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<div  class="table-responsive text-nowrap">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Customer Number</th>
+        <th scope="col">Symbol</th>
+        <th scope="col">Name</th>
+        <th scope="col">Shares</th>
+        <th scope="col">Initial Stock Price</th>
+        <th scope="col">Initial Stock Value</th>
+        <th scope ="col">Current Stock Price</th>
+        <th scope ="col">Current Stock Value</th>
+        <th scope ="col">Result</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for stock in stocks %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+           <td>{{ stock.user }}</td>
+           <td>{{ stock.symbol }}</td>
+           <td>{{ stock.name }}</td>
+           <td>{{ stock.shares|intcomma }}</td>
+           <td>{{ stock.purchase_price|intcomma }}</td>
+            <td>{{ stock.initial_stock_value|intcomma }}</td>
+            <td>{{ stock.current_stock_price|intcomma }}</td>
+           <td>{{ stock.current_stock_value|floatformat|intcomma }}</td>
+            <td>{{ result|floatformat|intcomma }}</td>
+        </tr>
+     {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br>
+<h3>Investment Information </h3>
+<br>
+<div  class="table-responsive text-nowrap">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Category</th>
+        <th scope="col">Description</th>
+        <th scope="col">Acquired Value</th>
+        <th scope="col">Acquired Date</th>
+        <th scope="col">Recent Value</th>
+        <th scope ="col">Recent Date</th>
+        <th scope ="col">Result</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for investment in investments %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+           <td>{{ investment.user }}</td>
+           <td>{{ investment.category }}</td>
+           <td>{{ investment.description }}</td>
+           <td>{{ investment.acquired_value|intcomma }}</td>
+           <td>{{ investment.acquired_date }}</td>
+            <td>{{ investment.recent_value|intcomma }}</td>
+            <td>{{ investment.recent_date }}</td>
+            <td>{{ investment.results_by_investment|intcomma}}</td>
+        </tr>
+     {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br>
+<div  class="table-responsive text-nowrap">
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Total Initial Investments</th>
+        <th scope="col">Total Current Investments</th>
+        <th scope="col">Result</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+           <td>{{ sum_of_initial_investment_value|intcomma }}</td>
+           <td>{{ sum_current_investment_value|intcomma }}</td>
+           <td>{{ result1|intcomma }}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock content %}
